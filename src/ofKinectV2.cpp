@@ -77,7 +77,7 @@ void ofKinectV2::update() {
 	hResult = pColorReader->AcquireLatestFrame(&pColorFrame);
 	if (SUCCEEDED(hResult)) {
 		BYTE* data = colorImage.getPixels();
-		hResult = pColorFrame->CopyConvertedFrameDataToArray(bufferSize, data, ColorImageFormat_Rgba); // ofImage‚ÉKinect‚Ìcolor‚ð‘ã“ü
+		hResult = pColorFrame->CopyConvertedFrameDataToArray(bufferSize, data, ColorImageFormat_Rgba); // ofImageã«Kinectã®colorã‚’ä»£å…¥
 		if (SUCCEEDED(hResult)) {
 			colorImage.update();
 		}
@@ -87,21 +87,21 @@ void ofKinectV2::update() {
 	IBodyFrame* pBodyFrame = nullptr;
 	hResult = pBodyReader->AcquireLatestFrame(&pBodyFrame);
 	if (SUCCEEDED(hResult)) {
-		// Frame‚©‚çBody‚ðŽæ“¾
+		// Frameã‹ã‚‰Bodyã‚’å–å¾—
 		IBody* pBody[BODY_COUNT] = { 0 };
 		hResult = pBodyFrame->GetAndRefreshBodyData(BODY_COUNT, pBody);
 		if (SUCCEEDED(hResult)) {
 			for (int count = 0; count < BODY_COUNT; count++) {
-				// ƒgƒ‰ƒbƒLƒ“ƒO‚Å‚«‚Ä‚¢‚é‚©
+				// ãƒˆãƒ©ãƒƒã‚­ãƒ³ã‚°ã§ãã¦ã„ã‚‹ã‹
 				BOOLEAN bTraked = false;
 				hResult = pBody[count]->get_IsTracked(&bTraked);
 				if (SUCCEEDED(hResult) && bTraked) {
-					// l•¨‚©‚çJoint(ß)‚ðŽæ“¾
+					// äººç‰©ã‹ã‚‰Joint(ç¯€)ã‚’å–å¾—
 					Joint joint[JointType::JointType_Count];
 					hResult = pBody[count]->GetJoints(JointType::JointType_Count, joint);
 					// joint
 					for (int type = 0; type < JointType::JointType_Count; type++) {
-						// •`‰æ‚·‚é‚½‚ß‚ÉJoint‚ÌCameraÀ•WŒn‚©‚çColorÀ•WŒn‚ÖˆÊ’u‡‚í‚¹
+						// æç”»ã™ã‚‹ãŸã‚ã«Jointã®Cameraåº§æ¨™ç³»ã‹ã‚‰Coloråº§æ¨™ç³»ã¸ä½ç½®åˆã‚ã›
 						ColorSpacePoint colorSpacePoint = { 0 };
 						pCoordinateMapper->MapCameraPointToColorSpace(joint[type].Position, &colorSpacePoint);
 						int x = static_cast<int>(colorSpacePoint.X);
@@ -109,6 +109,10 @@ void ofKinectV2::update() {
 						if (x >= 0 && x < width && y >= 0 && y < height) {
 							jointPos[count][type] = ofVec2f(x, y);
 						}
+					}
+				} else {
+					for (int type = 0; type < JOINT_COUNT; type++) {
+						jointPos[count][type] = ofVec2f(-100);
 					}
 				}
 			}

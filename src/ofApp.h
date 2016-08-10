@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Kinect.h"
+#include "ofKinectV2.h"
 
 class ofApp : public ofBaseApp{
 
@@ -9,7 +9,6 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -24,26 +23,5 @@ class ofApp : public ofBaseApp{
 	private:
 		int width;
 		int height;
-		int bufferSize;
-
-		ofImage colorImage;
-		ofVec2f jointPos[BODY_COUNT][JointType::JointType_Count];
-
-		IKinectSensor* pSensor; // KinectV2 を使うためのSensorインタフェース
-		IBodyFrameSource* pBodySource; // BodyフレームのためのSourceインタフェース
-		IColorFrameSource* pColorSource; // ColorフレームのためのSourceインタフェース
-		IBodyFrameReader* pBodyReader; // BodyフレームのためのReaderインタフェース
-		IColorFrameReader* pColorReader; // ColorフレームのためのReaderインタフェース
-		ICoordinateMapper* pCoordinateMapper; // フレーム間の位置合わせのためのインタフェース
+		ofKinectV2 kinect;
 };
-
-// Safe release for interfaces
-template<class Interface>
-inline void SafeRelease(Interface *& pInterfaceToRelease)
-{
-	if (pInterfaceToRelease != NULL)
-	{
-		pInterfaceToRelease->Release();
-		pInterfaceToRelease = NULL;
-	}
-}

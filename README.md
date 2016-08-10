@@ -1,0 +1,2 @@
+# KinectV2Body
+KinectV2の骨格検出をopenFrameworksに移植

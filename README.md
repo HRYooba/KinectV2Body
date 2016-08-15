@@ -8,10 +8,18 @@ KinectV2の骨格検出をopenFrameworksに移植
 
 ### VSの設定  
   追加のインクルードディレクトリを設定する  
-  C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc  
+  ```
+  C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\inc 
+  ```
   追加のライブラリディレクトリを設定する  
-  C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86  
-  追加の依存ファイルに Kinect20.lib を設定する  
+  ```
+  C:\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Lib\x86 
+  ```
+  追加の依存ファイルに
+  ```
+  Kinect20.lib
+  ```
+  を設定する  
 
 ### 参考サイト  
 <http://izmiz.hateblo.jp/entry/2015/02/08/222217>  
